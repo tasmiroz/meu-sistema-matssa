@@ -19,7 +19,7 @@ const genCodGlobal = (prefix, materiais, ferramentas) => {
   const nums = todos.map(x => { const m = x.codigo?.match(/\d+$/); return m ? parseInt(m[0]) : 0; });
   const max = nums.length ? Math.max(...nums) : 0;
   let n = max + 1;
-  while (todos.some(x => x.codigo === `${prefix}${String(n).padStart(3, "0")}`)) n++;
+  while (todos.some(x => x.codigo === `${prefix}${String(n).padStart(3, "0")}`)) { n++; }
   return `${prefix}${String(n).padStart(3, "0")}`;
 };
 const codDuplicado = (codigo, materiais, ferramentas, ignorarId = null) => {
@@ -148,7 +148,7 @@ function FotoViewer({ fotos, nome, open, onClose }) {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}><span style={{ color: "#fff", fontWeight: 600, fontSize: 13 }}>{nome}</span><button onClick={onClose} style={{ background: "#333", border: "none", borderRadius: 6, color: "#fff", cursor: "pointer", padding: "2px 9px", fontSize: 12 }}>✕</button></div>
       <img src={fotos[idx]?.url} alt={fotos[idx]?.descricao} style={{ width: "100%", borderRadius: 8, maxHeight: 320, objectFit: "contain", background: "#222" }} />
       {fotos[idx]?.descricao && <p style={{ color: "#aaa", fontSize: 11, marginTop: 5, textAlign: "center" }}>{fotos[idx].descricao}</p>}
-      {fotos.length > 1 && <div style={{ display: "flex", gap: 5, justifyContent: "center", marginTop: 7 }}>{fotos.map((f, i) => <img key={f.id} src={f.url} onClick={() => setIdx(i)} style={{ width: 40, height: 30, objectFit: "cover", borderRadius: 4, cursor: "pointer", border: i === idx ? "2px solid #185fa5" : "2px solid transparent" }} />)}</div>}
+      {fotos.length > 1 && <div style={{ display: "flex", gap: 5, justifyContent: "center", marginTop: 7 }}>{fotos.map((f, i) => <img key={f.id} src={f.url} alt="" onClick={() => setIdx(i)} style={{ width: 40, height: 30, objectFit: "cover", borderRadius: 4, cursor: "pointer", border: i === idx ? "2px solid #185fa5" : "2px solid transparent" }} />)}</div>}
     </div>
   </div>);
 }
@@ -387,7 +387,7 @@ function useSupabaseData() {
     return data;
   };
   const updateDestino = async (id, d) => {
-    const { id: _id, ...rest } = d; // remove o id se vier
+    const { id: _id, ...rest } = d;
     const { data, error } = await supabase.from("destinos").update(rest).eq("id", id).select().single();
     if (error) { console.error("Erro ao atualizar destino:", error); alert(error.message); return null; }
     setDestinos(prev => prev.map(d => d.id === id ? data : d));
@@ -407,7 +407,7 @@ function useSupabaseData() {
     return data;
   };
   const updateUsuario = async (id, u) => {
-    const { id: _id, ...rest } = u; // remove o id se vier
+    const { id: _id, ...rest } = u;
     const { data, error } = await supabase.from("usuarios").update(rest).eq("id", id).select().single();
     if (error) { console.error("Erro ao atualizar usuário:", error); alert(error.message); return null; }
     setUsuarios(prev => prev.map(u => u.id === id ? data : u));
