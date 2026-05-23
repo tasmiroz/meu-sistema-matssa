@@ -19,7 +19,8 @@ const genCodGlobal = (prefix, materiais, ferramentas) => {
   const nums = todos.map(x => { const m = x.codigo?.match(/\d+$/); return m ? parseInt(m[0]) : 0; });
   const max = nums.length ? Math.max(...nums) : 0;
   let n = max + 1;
-  while (todos.some(x => x.codigo === `${prefix}${String(n).padStart(3, "0")}`)) { n++; }
+  const exists = (num) => todos.some(x => x.codigo === `${prefix}${String(num).padStart(3, "0")}`);
+  while (exists(n)) { n++; }
   return `${prefix}${String(n).padStart(3, "0")}`;
 };
 const codDuplicado = (codigo, materiais, ferramentas, ignorarId = null) => {
